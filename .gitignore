@@ -1,0 +1,6 @@
+# Pliki runtime i dane użytkownika
+cookies.txt
+favourites.json
+*.archive
+*.log
+.DS_Store

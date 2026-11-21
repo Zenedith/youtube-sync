@@ -23,10 +23,15 @@ CHOWN_OPTS="--chown=100107:100110 --chmod=D775,F664"
 # Ustaw na true, jeśli chcesz usuwać z Proxmox pliki, których nie ma już na Unraid
 DELETE_EXTRANEOUS=false
 
-DIRECTORIES=(
-    "czarna_godzina"
-    "partyzanci-lubelszczyzny"
-)
+# Automatyczne wykrywanie wszystkich podkatalogów w SRC_BASE
+DIRECTORIES=()
+shopt -s nullglob
+for dir_path in "${SRC_BASE}"/*/; do
+    dir_name="$(basename "$dir_path")"
+    [[ "$dir_name" == "@eaDir" ]] && continue
+    DIRECTORIES+=("$dir_name")
+done
+shopt -u nullglob
 
 log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" | tee -a "$LOG_FILE"
